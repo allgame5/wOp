@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wahrheit oder Pflicht - Multiplayer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="login-screen" class="screen">
+        <div class="login-container">
+            <h1><i class="fas fa-gamepad"></i> Wahrheit oder Pflicht Multiplayer</h1>
+            <div class="form-group">
+                <input type="text" id="username" placeholder="Gib deinen Namen ein" maxlength="20" autofocus>
+            </div>
+            <div class="form-group">
+                <button id="create-room" class="btn-primary">
+                    <i class="fas fa-plus"></i> Raum erstellen
+                </button>
+                <button id="join-room" class="btn-secondary">
+                    <i class="fas fa-sign-in-alt"></i> Raum beitreten
+                </button>
+            </div>
+            <div id="room-selection" class="hidden">
+                <div class="form-group">
+                    <input type="text" id="room-code" placeholder="Raumcode eingeben" maxlength="6">
+                </div>
+                <button id="join-with-code" class="btn-success">
+                    <i class="fas fa-door-open"></i> Beitreten
+                </button>
+                <button id="back-to-main" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Zurück
+                </button>
+            </div>
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Wie es funktioniert:</h3>
+                <ul>
+                    <li>Erstelle einen Raum und teile den Code mit Freunden</li>
+                    <li>Bis zu 10 Spieler können teilnehmen</li>
+                    <li>Alle sehen die gleichen Challenges in Echtzeit</li>
+                    <li>Reagiere mit Emojis auf andere Spieler</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="lobby-screen" class="screen hidden">
+        <div class="lobby-container">
+            <div class="lobby-header">
+                <h2><i class="fas fa-users"></i> Lobby</h2>
+                <div class="room-info">
+                    <div class="room-code">
+                        <strong>Raumcode:</strong> 
+                        <span id="display-room-code">XXXXXX</span>
+                        <button id="copy-code" class="btn-small">
+                            <i class="far fa-copy"></i> Kopieren
+                        </button>
+                    </div>
+                    <div class="player-count">
+                        <i class="fas fa-user"></i> 
+                        <span id="player-count">1</span>/10 Spieler
+                    </div>
+                </div>
+            </div>
+
+            <div class="players-list">
+                <h3><i class="fas fa-user-friends"></i> Spieler im Raum:</h3>
+                <div id="players-container">
+                    <!-- Spieler werden hier dynamisch hinzugefügt -->
+                </div>
+            </div>
+
+            <div class="lobby-controls">
+                <button id="start-game" class="btn-primary" disabled>
+                    <i class="fas fa-play"></i> Spiel starten
+                </button>
+                <button id="leave-lobby" class="btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Lobby verlassen
+                </button>
+            </div>
+
+            <div class="chat-container">
+                <h3><i class="fas fa-comments"></i> Chat</h3>
+                <div id="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input" placeholder="Nachricht eingeben...">
+                    <button id="send-chat" class="btn-small">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen hidden">
+        <div class="game-container">
+            <div class="game-header">
+                <div class="game-info">
+                    <div class="current-turn">
+                        <i class="fas fa-user-clock"></i>
+                        <strong>Aktuell:</strong> 
+                        <span id="current-player">Wird geladen...</span>
+                    </div>
+                    <div class="game-stats">
+                        <span><i class="fas fa-check-circle"></i> <span id="completed-challenges">0</span></span>
+                        <span><i class="fas fa-clock"></i> <span id="timer">0s</span></span>
+                    </div>
+                </div>
+                <button id="leave-game" class="btn-danger btn-small">
+                    <i class="fas fa-sign-out-alt"></i> Spiel verlassen
+                </button>
+            </div>
+
+            <div class="game-board">
+                <div class="player-cards">
+                    <!-- Spielerkarten werden hier dynamisch hinzugefügt -->
+                </div>
+
+                <div class="challenge-area">
+                    <div class="challenge-card">
+                        <div class="card-header">
+                            <span id="challenge-type">Warte auf Spielstart...</span>
+                            <span class="difficulty" id="difficulty">⚪</span>
+                        </div>
+                        <div class="card-content">
+                            <p id="challenge-text">Das Spiel startet bald!</p>
+                            <div class="challenge-target">
+                                <i class="fas fa-crosshairs"></i> Für: 
+                                <span id="target-player">Alle</span>
+                            </div>
+                        </div>
+                        <div class="card-timer" id="card-timer">
+                            <div class="timer-bar">
+                                <div class="timer-fill"></div>
+                            </div>
+                            <span>Zeit verbleibend: <span id="time-remaining">30</span>s</span>
+                        </div>
+                    </div>
+
+                    <div class="choice-buttons">
+                        <button id="truth-btn" class="choice-btn truth" disabled>
+                            <i class="fas fa-comment-dots"></i> WAHRHEIT
+                        </button>
+                        <button id="dare-btn" class="choice-btn dare" disabled>
+                            <i class="fas fa-bolt"></i> PFLICHT
+                        </button>
+                        <button id="random-btn" class="choice-btn random">
+                            <i class="fas fa-random"></i> ZUFALL
+                        </button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="skip-btn" class="btn-secondary" disabled>
+                            <i class="fas fa-forward"></i> Überspringen (-10 Punkte)
+                        </button>
+                        <button id="complete-btn" class="btn-success" disabled>
+                            <i class="fas fa-check"></i> Erledigt! (+25 Punkte)
+                        </button>
+                    </div>
+
+                    <div class="reactions">
+                        <h4><i class="fas fa-smile"></i> Reaktionen</h4>
+                        <div class="reaction-buttons">
+                            <button class="reaction-btn" data-emoji="😂">😂</button>
+                            <button class="reaction-btn" data-emoji="😲">😲</button>
+                            <button class="reaction-btn" data-emoji="👏">👏</button>
+                            <button class="reaction-btn" data-emoji="🎉">🎉</button>
+                            <button class="reaction-btn" data-emoji="🤔">🤔</button>
+                            <button class="reaction-btn" data-emoji="😭">😭</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-chat">
+                    <h3><i class="fas fa-comment-dots"></i> Spiel-Chat</h3>
+                    <div id="game-chat-messages"></div>
+                    <div class="chat-input">
+                        <input type="text" id="game-chat-input" placeholder="Kommentiere die Challenge...">
+                        <button id="send-game-chat" class="btn-small">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scoreboard">
+                <h3><i class="fas fa-trophy"></i> Bestenliste</h3>
+                <table id="scoreboard-table">
+                    <thead>
+                        <tr>
+                            <th>Platz</th>
+                            <th>Spieler</th>
+                            <th>Punkte</th>
+                            <th>Erledigt</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scoreboard-body">
+                        <!-- Scores werden hier dynamisch hinzugefügt -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.0/dist/socket.io.min.js"></script>
+    <script src="script.js"></script>
+</body>
+  </html>
