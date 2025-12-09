@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wahrheit oder Pflicht</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-gamepad"></i> Wahrheit oder Pflicht</h1>
+            <p class="subtitle">Das ultimative Party-Spiel für deinen Browser!</p>
+        </header>
+
+        <div class="game-area">
+            <div class="player-info">
+                <div class="player-counter">
+                    <span id="player-count">1</span> Spieler
+                </div>
+                <button id="add-player" class="btn-small">
+                    <i class="fas fa-user-plus"></i> Spieler hinzufügen
+                </button>
+                <button id="reset-players" class="btn-small">
+                    <i class="fas fa-redo"></i> Zurücksetzen
+                </button>
+            </div>
+
+            <div class="current-player">
+                <h2>Aktueller Spieler:</h2>
+                <div class="player-name" id="current-player-name">Spieler 1</div>
+            </div>
+
+            <div class="choice-buttons">
+                <button id="truth-btn" class="choice-btn truth">
+                    <i class="fas fa-comment-dots"></i> WAHRHEIT
+                </button>
+                <button id="dare-btn" class="choice-btn dare">
+                    <i class="fas fa-bolt"></i> PFLICHT
+                </button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="card-header">
+                    <span id="challenge-type">Warte auf Wahl...</span>
+                    <span class="difficulty" id="difficulty">⚪</span>
+                </div>
+                <div class="card-content">
+                    <p id="challenge-text">Wähle "Wahrheit" oder "Pflicht" um eine Challenge zu erhalten!</p>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <span><i class="fas fa-history"></i> <span id="completed-count">0</span> erledigt</span>
+                        <span><i class="fas fa-sync-alt"></i> <span id="skip-count">0</span> übersprungen</span>
+                    </div>
+                    <button id="skip-btn" class="btn-secondary">
+                        <i class="fas fa-forward"></i> Überspringen
+                    </button>
+                    <button id="complete-btn" class="btn-primary">
+                        <i class="fas fa-check"></i> Erledigt!
+                    </button>
+                </div>
+            </div>
+
+            <div class="history">
+                <h3><i class="fas fa-history"></i> Verlauf</h3>
+                <div id="history-list"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Made with <i class="fas fa-heart"></i> für die beste Party | 
+                <a href="#" id="settings-toggle"><i class="fas fa-cog"></i> Einstellungen</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-cog"></i> Einstellungen</h2>
+            <div class="settings-option">
+                <label>
+                    <input type="checkbox" id="adult-mode">
+                    Erwachsenen-Modus (18+ Fragen)
+                </label>
+            </div>
+            <div class="settings-option">
+                <label>Schwierigkeit:</label>
+                <select id="difficulty-level">
+                    <option value="all">Alle</option>
+                    <option value="easy" selected>Einfach</option>
+                    <option value="medium">Mittel</option>
+                    <option value="hard">Hart</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label>Spielerfarbe:</label>
+                <input type="color" id="player-color" value="#4a6bff">
+            </div>
+            <button id="close-settings" class="btn-primary">Speichern & Schließen</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
